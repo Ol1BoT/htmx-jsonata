@@ -30,7 +30,7 @@ func main() {
 		defer r.Body.Close()
 
 		if err := r.ParseForm(); err != nil {
-			io.WriteString(w, basiDiv(err.Error()))
+			io.WriteString(w, basicDiv(err.Error()))
 			return
 		}
 
@@ -39,11 +39,11 @@ func main() {
 
 		v, err := ValidateJSONata(input, mapping)
 		if err != nil {
-			io.WriteString(w, basiDiv(err.Error()))
+			io.WriteString(w, basicDiv(err.Error()))
 			return
 		}
 
-		io.WriteString(w, basiDiv(v))
+		io.WriteString(w, basicDiv(v))
 
 		return
 
@@ -79,6 +79,6 @@ func ValidateJSONata(input, mapping string) (string, error) {
 
 }
 
-func basiDiv(msg string) string {
+func basicDiv(msg string) string {
 	return fmt.Sprintf("<div>%s</div>", msg)
 }
