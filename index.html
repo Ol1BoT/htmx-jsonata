@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FAFO: HTMX & JSONata</title>
+</head>
+
+<body>
+	<h1>Input</h1>
+	<textarea id="json-input" rows="4" cols="50" name="json_input" hx-include="#mapping-writer"
+		hx-trigger="load, keyup delay:500ms" hx-target="#mapping-results" hx-post="/validate-mapping"
+		hx-indicator="#indicator">
+{
+	"hello": "Hey fella",
+	"numbers" : [1,2,3,4]
+}
+	</textarea>
+	<h1>Mapping</h1>
+	<textarea rows="4" cols="50" name="mapping_writer" id="mapping-writer" hx-target="#mapping-results"
+		hx-post="/validate-mapping" hx-trigger="keyup changed delay:500ms" hx-include="#json-input">
+{
+	"new_mapping": hello,
+	"sum" : $sum(numbers)
+}
+	</textarea>
+
+	<div id="indicator" class="htmx-indicator">Validating...</div>
+	<div id="mapping-results"> </div>
+</body>
+<script src="https://unpkg.com/htmx.org@1.9.2"
+	integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+	crossorigin="anonymous"></script>
+
+</html>
