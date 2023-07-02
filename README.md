@@ -1,2 +1,3 @@
 # htmx-jsonata
-FAFO with htmx and JSONata
+
+Basic JSONata playground using HTMX & github.com/blues/jsonata-go
