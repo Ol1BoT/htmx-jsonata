@@ -15,6 +15,10 @@ func main() {
 
 	r := chi.NewRouter()
 
+	fs := http.FileServer(http.Dir("public"))
+
+	r.Handle("/public/*", http.StripPrefix("/public/", fs))
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 
 		bt, err := ioutil.ReadFile("index.html")
@@ -43,7 +47,7 @@ func main() {
 			return
 		}
 
-		io.WriteString(w, basicDiv(v))
+		io.WriteString(w, basicTextArea(v))
 
 		return
 
@@ -81,4 +85,14 @@ func ValidateJSONata(input, mapping string) (string, error) {
 
 func basicDiv(msg string) string {
 	return fmt.Sprintf("<div>%s</div>", msg)
+}
+
+func basicTextArea(msg string) string {
+	return fmt.Sprintf(`
+      <textarea
+        class="block p-2.5 w-full h-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        hx-target="#mapping-results" hx-post="/validate-mapping"
+        hx-trigger="keyup changed delay:500ms" hx-include="#json-input">
+    	%s</textarea>
+	`, msg)
 }
